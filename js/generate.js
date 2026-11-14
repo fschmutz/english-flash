@@ -41,6 +41,30 @@ export function norm(s) {
 
 export const FAM_KEYS = ['routine', 'free', 'present', 'poss', 'time', 'spell', 'mix'];
 
+/**
+ * D'où vient chaque item : la page du cahier (photo de l'album) et la rubrique.
+ * Chaque question porte `src` (une ou plusieurs pages, séparées par « · ») et `topic`.
+ * test/sources.test.mjs refuse une question sans source ou hors des thèmes de l'Unit 4.
+ */
+export const SOURCES = {
+  p14: 'Vocabox Morning routine, mots de liaison First / Then / After / Finally',
+  p15: 'Présent simple : le -s de la 3e personne et sa prononciation, phrases du cahier',
+  p16: 'be / have, déterminants et pronoms possessifs',
+  p17: 'Traduction et phrases possessives (brush my teeth, wash their faces)',
+  p18: 'Textes « Free time activities around the world »',
+  p19: 'Présent simple aux trois formes',
+  p20: 'Questions et négations au présent simple',
+  p22: 'Vocabox Free time activities : DO / GO / PLAY',
+  p23: "L'heure, méthode 1 (aiguilles)",
+  p24: "Leslie's daily routine",
+  p25: "L'heure, méthode 2 (digitale) et am / pm",
+  p26: 'Vocabox Daily routine',
+  p27: 'Fiche « Je sais dire et écrire… » (ce que couvre l’évaluation)'
+};
+
+/** Les seuls thèmes du niveau 1 : la fiche de révision de l'Unit 4, rien d'autre. */
+export const L1_TOPICS = ['routine-vocab', 'free-time', 'present-simple', 'possessives', 'time', 'sequencers'];
+
 export const FAM = {
   routine: 'Ma routine',
   free: 'Free time',
@@ -91,31 +115,31 @@ export function isCorrect(q, given) {
  * `box` la vocabox d'origine, `lvl` le palier à partir duquel l'expression sort.
  */
 export const ROUTINE = [
-  { en: 'wake up', fr: 'se réveiller', box: 'morning', lvl: 1 },
-  { en: 'get up', fr: 'se lever', box: 'morning', lvl: 1 },
-  { en: 'brush my hair', fr: 'me brosser les cheveux', box: 'morning', lvl: 1 },
-  { en: 'brush my teeth', fr: 'me brosser les dents', box: 'morning', lvl: 1 },
-  { en: 'make my bed', fr: 'faire mon lit', box: 'morning', lvl: 2 },
-  { en: 'take a bath', fr: 'prendre un bain', box: 'morning', lvl: 1 },
-  { en: 'take a shower', fr: 'prendre une douche', box: 'morning', lvl: 1 },
-  { en: 'wash my face', fr: 'me laver le visage', box: 'morning', lvl: 2 },
-  { en: 'get dressed', fr: "m'habiller", box: 'morning', lvl: 2 },
-  { en: 'pack my bag', fr: 'faire mon sac', box: 'morning', lvl: 2 },
-  { en: 'drink tea', fr: 'boire du thé', box: 'morning', lvl: 1 },
-  { en: 'eat breakfast', fr: 'prendre le petit-déjeuner', box: 'morning', lvl: 1 },
-  { en: 'check my phone', fr: 'regarder mon téléphone', box: 'morning', lvl: 2 },
-  { en: 'read the newspaper', fr: 'lire le journal', box: 'morning', lvl: 2 },
-  { en: 'go to school', fr: "aller à l'école", box: 'morning', lvl: 1 },
-  { en: 'go to bed', fr: 'aller au lit', box: 'daily', lvl: 1 },
-  { en: 'sleep', fr: 'dormir', box: 'daily', lvl: 1 },
-  { en: 'do my homework', fr: 'faire mes devoirs', box: 'daily', lvl: 2 },
-  { en: 'go home', fr: 'rentrer à la maison', box: 'daily', lvl: 2 },
-  { en: 'go to work', fr: 'aller au travail', box: 'daily', lvl: 2 },
-  { en: 'have lunch', fr: 'déjeuner (le midi)', box: 'daily', lvl: 3 },
-  { en: 'have a snack', fr: 'prendre le goûter', box: 'daily', lvl: 3 },
-  { en: 'have dinner', fr: 'dîner (le soir)', box: 'daily', lvl: 3 },
-  { en: 'watch TV', fr: 'regarder la télé', box: 'daily', lvl: 1 },
-  { en: 'read a book', fr: 'lire un livre', box: 'daily', lvl: 1 }
+  { en: 'wake up', fr: 'se réveiller', box: 'morning', lvl: 1, src: 'p14' },
+  { en: 'get up', fr: 'se lever', box: 'morning', lvl: 1, src: 'p14' },
+  { en: 'brush my hair', fr: 'me brosser les cheveux', box: 'morning', lvl: 1, src: 'p14' },
+  { en: 'brush my teeth', fr: 'me brosser les dents', box: 'morning', lvl: 1, src: 'p14' },
+  { en: 'make my bed', fr: 'faire mon lit', box: 'morning', lvl: 2, src: 'p14' },
+  { en: 'take a bath', fr: 'prendre un bain', box: 'morning', lvl: 1, src: 'p14' },
+  { en: 'take a shower', fr: 'prendre une douche', box: 'morning', lvl: 1, src: 'p14' },
+  { en: 'wash my face', fr: 'me laver le visage', box: 'morning', lvl: 2, src: 'p14' },
+  { en: 'get dressed', fr: "m'habiller", box: 'morning', lvl: 2, src: 'p14' },
+  { en: 'pack my bag', fr: 'faire mon sac', box: 'morning', lvl: 2, src: 'p14' },
+  { en: 'drink tea', fr: 'boire du thé', box: 'morning', lvl: 1, src: 'p14' },
+  { en: 'eat breakfast', fr: 'prendre le petit-déjeuner', box: 'morning', lvl: 1, src: 'p14' },
+  { en: 'check my phone', fr: 'regarder mon téléphone', box: 'morning', lvl: 2, src: 'p14' },
+  { en: 'read the newspaper', fr: 'lire le journal', box: 'morning', lvl: 2, src: 'p14' },
+  { en: 'go to school', fr: "aller à l'école", box: 'morning', lvl: 1, src: 'p14' },
+  { en: 'go to bed', fr: 'aller au lit', box: 'daily', lvl: 1, src: 'p26' },
+  { en: 'sleep', fr: 'dormir', box: 'daily', lvl: 1, src: 'p26' },
+  { en: 'do my homework', fr: 'faire mes devoirs', box: 'daily', lvl: 2, src: 'p26' },
+  { en: 'go home', fr: 'rentrer à la maison', box: 'daily', lvl: 2, src: 'p26' },
+  { en: 'go to work', fr: 'aller au travail', box: 'daily', lvl: 2, src: 'p26' },
+  { en: 'have lunch', fr: 'déjeuner (le midi)', box: 'daily', lvl: 3, src: 'p26' },
+  { en: 'have a snack', fr: 'prendre le goûter', box: 'daily', lvl: 3, src: 'p26' },
+  { en: 'have dinner', fr: 'dîner (le soir)', box: 'daily', lvl: 3, src: 'p26' },
+  { en: 'watch TV', fr: 'regarder la télé', box: 'daily', lvl: 1, src: 'p24' },
+  { en: 'read a book', fr: 'lire un livre', box: 'daily', lvl: 1, src: 'p24' }
 ];
 
 /** Les mots de liaison du cahier, dans l'ordre. */
@@ -123,7 +147,7 @@ export const SEQUENCE = ['First', 'Then', 'After', 'Finally'];
 
 function routineQuestion(level, opt) {
   const rnd = opt.random || Math.random;
-  const meta = { fam: FAM.routine, famKey: 'routine' };
+  const meta = { fam: FAM.routine, famKey: 'routine', topic: 'routine-vocab' };
   const pool = ROUTINE.filter((w) => w.lvl <= Math.max(1, level));
   const kinds = ['fr2en', 'en2fr'];
   if (level >= 2) kinds.push('eatHave');
@@ -135,7 +159,7 @@ function routineQuestion(level, opt) {
     const meal = pick(['breakfast', 'lunch', 'dinner'], rnd);
     const fr = { breakfast: 'le petit-déjeuner', lunch: 'le déjeuner', dinner: 'le dîner' }[meal];
     return mcq(`Prendre ${fr} : I ___ ${meal}.`, 'have', ['take', 'make', 'do'].slice(0, n - 1),
-      { ...meta, tag: 'eat / have' }, rnd);
+      { ...meta, tag: 'eat / have', src: 'p26' }, rnd);
   }
   if (kind === 'seq') {
     const i = rint(0, SEQUENCE.length - 1, rnd);
@@ -146,14 +170,14 @@ function routineQuestion(level, opt) {
       '___, I go to school. (enfin, pour finir)'
     ];
     return mcq(prompts[i], SEQUENCE[i], SEQUENCE.filter((s) => s !== SEQUENCE[i]).slice(0, n - 1),
-      { ...meta, tag: 'Mots de liaison' }, rnd);
+      { ...meta, tag: 'Mots de liaison', topic: 'sequencers', src: 'p14 · p27' }, rnd);
   }
   const w = pick(pool, rnd);
   const others = sample(ROUTINE.filter((x) => x.en !== w.en && x.fr !== w.fr), n - 1, rnd);
   if (kind === 'en2fr') {
-    return mcq(w.en, w.fr, others.map((x) => x.fr), { ...meta, tag: 'English → français' }, rnd);
+    return mcq(w.en, w.fr, others.map((x) => x.fr), { ...meta, tag: 'English → français', src: w.src }, rnd);
   }
-  return mcq(w.fr, w.en, others.map((x) => x.en), { ...meta, tag: 'Français → English' }, rnd);
+  return mcq(w.fr, w.en, others.map((x) => x.en), { ...meta, tag: 'Français → English', src: w.src }, rnd);
 }
 
 /* ------------------------------------------------------------------ *
@@ -161,45 +185,45 @@ function routineQuestion(level, opt) {
  * ------------------------------------------------------------------ */
 
 export const FREE_TIME = [
-  { verb: 'do', what: 'Irish dancing', fr: 'faire de la danse irlandaise' },
-  { verb: 'do', what: 'karate', fr: 'faire du karaté' },
-  { verb: 'do', what: 'gymnastics', fr: 'faire de la gymnastique' },
-  { verb: 'do', what: 'my homework', fr: 'faire mes devoirs' },
-  { verb: 'go', what: 'out with friends', fr: 'sortir avec des amis' },
-  { verb: 'go', what: 'swimming', fr: 'aller nager' },
-  { verb: 'go', what: 'to the cinema', fr: 'aller au cinéma' },
-  { verb: 'go', what: 'shopping', fr: 'faire les magasins' },
-  { verb: 'play', what: 'hockey', fr: 'jouer au hockey' },
-  { verb: 'play', what: 'American football', fr: 'jouer au football américain' },
-  { verb: 'play', what: 'Gaelic football', fr: 'jouer au football gaélique' },
-  { verb: 'play', what: 'football', fr: 'jouer au foot' },
-  { verb: 'play', what: 'cricket', fr: 'jouer au cricket' },
-  { verb: 'play', what: 'baseball', fr: 'jouer au baseball' },
-  { verb: 'play', what: 'video games', fr: 'jouer aux jeux vidéo' },
-  { verb: 'play', what: 'the bagpipes', fr: 'jouer de la cornemuse' },
-  { verb: 'watch', what: 'TV', fr: 'regarder la télé' },
-  { verb: 'read', what: 'a book', fr: 'lire un livre' }
+  { verb: 'do', what: 'Irish dancing', fr: 'faire de la danse irlandaise', src: 'p22' },
+  { verb: 'do', what: 'karate', fr: 'faire du karaté', src: 'p22' },
+  { verb: 'do', what: 'gymnastics', fr: 'faire de la gymnastique', src: 'p22' },
+  { verb: 'do', what: 'my homework', fr: 'faire mes devoirs', src: 'p22' },
+  { verb: 'go', what: 'out with friends', fr: 'sortir avec des amis', src: 'p22' },
+  { verb: 'go', what: 'swimming', fr: 'aller nager', src: 'p22' },
+  { verb: 'go', what: 'to the cinema', fr: 'aller au cinéma', src: 'p22' },
+  { verb: 'go', what: 'shopping', fr: 'faire les magasins', src: 'p22' },
+  { verb: 'play', what: 'hockey', fr: 'jouer au hockey', src: 'p22' },
+  { verb: 'play', what: 'American football', fr: 'jouer au football américain', src: 'p22' },
+  { verb: 'play', what: 'Gaelic football', fr: 'jouer au football gaélique', src: 'p22' },
+  { verb: 'play', what: 'football', fr: 'jouer au foot', src: 'p22' },
+  { verb: 'play', what: 'cricket', fr: 'jouer au cricket', src: 'p22' },
+  { verb: 'play', what: 'baseball', fr: 'jouer au baseball', src: 'p22' },
+  { verb: 'play', what: 'video games', fr: 'jouer aux jeux vidéo', src: 'p22' },
+  { verb: 'play', what: 'the bagpipes', fr: 'jouer de la cornemuse', src: 'p22' },
+  { verb: 'watch', what: 'TV', fr: 'regarder la télé', src: 'p22 · p24' },
+  { verb: 'read', what: 'a book', fr: 'lire un livre', src: 'p22 · p24' }
 ];
 
 /** Les quatre textes « Free time activities around the world », questions de compréhension. */
 export const AROUND_THE_WORLD = [
-  { q: 'Where do Leslie and Monica live?', a: 'In England', ko: ['In Ireland', 'In Scotland', 'In the United States'] },
-  { q: 'Where does Hannah live?', a: 'In Ireland', ko: ['In England', 'In Scotland', 'In the United States'] },
-  { q: 'Where do Dennis and Joey live?', a: 'In Scotland', ko: ['In England', 'In Ireland', 'In the United States'] },
-  { q: 'Where does Tom live?', a: 'In the United States', ko: ['In England', 'In Ireland', 'In Scotland'] },
   { q: 'What do Leslie and Monica do every Sunday?', a: 'They go swimming.', ko: ['They play cricket.', 'They do Irish dancing.', 'They play baseball.'] },
   { q: 'What do Leslie and Monica play every Tuesday?', a: 'Cricket', ko: ['Baseball', 'Gaelic football', 'The bagpipes'] },
   { q: 'What does Hannah do every Wednesday?', a: 'She does Irish dancing.', ko: ['She plays the bagpipes.', 'She goes swimming.', 'She plays cricket.'] },
   { q: 'What does Hannah play at the weekend?', a: 'Gaelic football', ko: ['American football', 'Baseball', 'Cricket'] },
+  { q: 'Does Hannah watch TV?', a: 'Yes, she does.', ko: ["No, she doesn't.", 'Yes, she do.', "No, she don't."] },
   { q: 'What do Dennis and Joey play every Wednesday?', a: 'The bagpipes', ko: ['Video games', 'Cricket', 'Baseball'] },
-  { q: 'Where do Dennis and Joey go every Friday evening?', a: 'To the cinema', ko: ['Shopping', 'Swimming', "To Leslie's place"] },
-  { q: 'When does Tom play baseball?', a: 'Every Tuesday at 6pm', ko: ['Every Sunday', 'At the weekend', 'Every Friday evening'] },
-  { q: "Does Tom watch TV?", a: "No, he doesn't.", ko: ['Yes, he does.', "No, he don't.", 'Yes, he do.'] }
-];
+  { q: 'Where do Dennis and Joey go every Friday evening?', a: 'To the cinema', ko: ['Shopping', 'Swimming', 'Out with friends'] },
+  { q: 'What do Dennis and Joey do at 5 pm?', a: 'They do their homework.', ko: ['They play the bagpipes.', 'They go to the cinema.', 'They go swimming.'] },
+  { q: 'When does Tom play baseball?', a: 'Every Tuesday at 6 pm', ko: ['Every Sunday', 'At the weekend', 'Every Friday evening'] },
+  { q: 'What does Tom play at the weekend?', a: 'American football', ko: ['Gaelic football', 'Cricket', 'Hockey'] },
+  { q: 'What does Tom play every evening?', a: 'Video games', ko: ['The bagpipes', 'Cricket', 'Hockey'] },
+  { q: 'Does Tom watch TV?', a: "No, he doesn't.", ko: ['Yes, he does.', "No, he don't.", 'Yes, he do.'] }
+].map((x) => ({ ...x, src: 'p18' }));
 
 function freeQuestion(level, opt) {
   const rnd = opt.random || Math.random;
-  const meta = { fam: FAM.free, famKey: 'free' };
+  const meta = { fam: FAM.free, famKey: 'free', topic: 'free-time' };
   const kinds = ['dgp', 'dgp', 'fr2en'];
   if (level >= 2) kinds.push('en2fr');
   if (level >= 3) kinds.push('world', 'world');
@@ -210,17 +234,17 @@ function freeQuestion(level, opt) {
   if (kind === 'dgp') {
     const x = pick(dgp, rnd);
     return mcq(`I ___ ${x.what}.`, x.verb, ['do', 'go', 'play'].filter((v) => v !== x.verb),
-      { ...meta, tag: 'DO, GO ou PLAY ?' }, rnd);
+      { ...meta, tag: 'DO, GO ou PLAY ?', src: x.src }, rnd);
   }
   if (kind === 'world') {
     const x = pick(AROUND_THE_WORLD, rnd);
-    return mcq(x.q, x.a, x.ko.slice(0, n - 1), { ...meta, tag: 'Around the world' }, rnd);
+    return mcq(x.q, x.a, x.ko.slice(0, n - 1), { ...meta, tag: 'Around the world', src: x.src }, rnd);
   }
   const x = pick(FREE_TIME, rnd);
   const others = sample(FREE_TIME.filter((y) => y !== x && y.fr !== x.fr), n - 1, rnd);
   const en = (y) => y.verb + ' ' + y.what;
-  if (kind === 'en2fr') return mcq(en(x), x.fr, others.map((y) => y.fr), { ...meta, tag: 'English → français' }, rnd);
-  return mcq(x.fr, en(x), others.map(en), { ...meta, tag: 'Français → English' }, rnd);
+  if (kind === 'en2fr') return mcq(en(x), x.fr, others.map((y) => y.fr), { ...meta, tag: 'English → français', src: x.src }, rnd);
+  return mcq(x.fr, en(x), others.map(en), { ...meta, tag: 'Français → English', src: x.src }, rnd);
 }
 
 /* ------------------------------------------------------------------ *
@@ -238,22 +262,22 @@ export function third(base) {
 
 /** Verbe + complément. `v` est la base, le reste suit tel quel. */
 export const ACTIONS = [
-  { v: 'get', rest: 'up at 7 o\'clock' },
-  { v: 'wake', rest: 'up every morning' },
-  { v: 'watch', rest: 'TV after school' },
-  { v: 'go', rest: 'swimming every Sunday' },
-  { v: 'go', rest: 'to school by bus' },
-  { v: 'do', rest: 'Irish dancing every Wednesday' },
-  { v: 'play', rest: 'video games every evening' },
-  { v: 'play', rest: 'cricket every Tuesday' },
-  { v: 'have', rest: 'breakfast at 7:30 am' },
-  { v: 'read', rest: 'the newspaper' },
-  { v: 'drink', rest: 'tea before breakfast' },
-  { v: 'take', rest: 'a shower every morning' },
-  { v: 'brush', rest: 'the dog every day' },
-  { v: 'wash', rest: 'the car at the weekend' },
-  { v: 'fix', rest: 'bikes at the weekend' },
-  { v: 'do', rest: 'homework at 5 pm' }
+  { v: 'get', rest: 'up at 7 o\'clock', src: 'p14 · p27' },
+  { v: 'wake', rest: 'up every morning', src: 'p14' },
+  { v: 'watch', rest: 'TV after school', src: 'p20' },
+  { v: 'go', rest: 'swimming every Sunday', src: 'p18' },
+  { v: 'go', rest: 'to school every morning', src: 'p14' },
+  { v: 'go', rest: 'to the cinema every Friday evening', src: 'p18' },
+  { v: 'do', rest: 'Irish dancing every Wednesday', src: 'p18' },
+  { v: 'play', rest: 'video games every evening', src: 'p18' },
+  { v: 'play', rest: 'cricket every Tuesday', src: 'p18' },
+  { v: 'play', rest: 'baseball every Tuesday', src: 'p18' },
+  { v: 'have', rest: 'breakfast at 7:30 am', src: 'p15 · p26' },
+  { v: 'eat', rest: 'lunch at 12 o\'clock', src: 'p26' },
+  { v: 'read', rest: 'the newspaper', src: 'p15' },
+  { v: 'drink', rest: 'tea before breakfast', src: 'p15' },
+  { v: 'take', rest: 'a shower every morning', src: 'p15' },
+  { v: 'do', rest: 'homework at 5 pm', src: 'p18' }
 ];
 
 /** Sujets : `s` vrai = 3e personne du singulier. */
@@ -275,15 +299,15 @@ export function ing(v) {
 
 /** -s, -es : /s/, /z/ ou /iz/ — la liste du cahier, plus quelques verbes de la vocabox. */
 export const S_SOUND = [
-  { w: 'brushes', s: '/iz/' }, { w: 'washes', s: '/iz/' }, { w: 'fixes', s: '/iz/' }, { w: 'watches', s: '/iz/' },
-  { w: 'reads', s: '/z/' }, { w: 'loves', s: '/z/' }, { w: 'calls', s: '/z/' }, { w: 'goes', s: '/z/' }, { w: 'plays', s: '/z/' },
-  { w: 'gets', s: '/s/' }, { w: 'likes', s: '/s/' }, { w: 'stops', s: '/s/' }, { w: 'writes', s: '/s/' },
-  { w: 'packs', s: '/s/' }, { w: 'takes', s: '/s/' }, { w: 'eats', s: '/s/' }, { w: 'drinks', s: '/s/' }
+  { w: 'brushes', s: '/iz/', src: 'p15' }, { w: 'washes', s: '/iz/', src: 'p15' }, { w: 'fixes', s: '/iz/', src: 'p15' }, { w: 'watches', s: '/iz/', src: 'p14 · p15' },
+  { w: 'reads', s: '/z/', src: 'p15' }, { w: 'loves', s: '/z/', src: 'p15' }, { w: 'calls', s: '/z/', src: 'p15' }, { w: 'goes', s: '/z/', src: 'p15' }, { w: 'plays', s: '/z/', src: 'p15' },
+  { w: 'gets', s: '/s/', src: 'p15' }, { w: 'likes', s: '/s/', src: 'p15' }, { w: 'stops', s: '/s/', src: 'p15' }, { w: 'writes', s: '/s/', src: 'p15' },
+  { w: 'packs', s: '/s/', src: 'p14 · p15' }, { w: 'takes', s: '/s/', src: 'p14 · p15' }, { w: 'eats', s: '/s/', src: 'p14 · p15' }, { w: 'drinks', s: '/s/', src: 'p14 · p15' }
 ];
 
 function presentQuestion(level, opt) {
   const rnd = opt.random || Math.random;
-  const meta = { fam: FAM.present, famKey: 'present' };
+  const meta = { fam: FAM.present, famKey: 'present', topic: 'present-simple' };
   const kinds = ['aff', 'aff', 'neg', 'ques', 'beHave'];
   if (level >= 2) kinds.push('simpleVsIng', 'sound');
   if (level >= 3) kinds.push('negSentence', 'quesSentence', 'short');
@@ -293,6 +317,7 @@ function presentQuestion(level, opt) {
   const act = pick(ACTIONS, rnd);
   const base = act.v, s3 = third(base);
   const verb = subj.s ? s3 : base;
+  meta.src = 'p19 · ' + act.src;
 
   if (kind === 'aff') {
     const ko = subj.s ? [base, base + 's' === s3 ? base + 'es' : base + 's', 'is ' + ing(base)]
@@ -317,40 +342,40 @@ function presentQuestion(level, opt) {
     const useBe = rnd() < 0.5;
     if (useBe) {
       const ok = be[subj.w] || (subj.s ? 'is' : 'are');
-      const tail = pick(['tired', 'hungry', 'late', 'happy'], rnd);
+      const tail = pick(['at school at 9 am', 'in bed at 10 pm', 'at home after school', 'at the cinema every Friday'], rnd);
       return mcq(`${subj.w} ___ ${tail}.`, ok, ['am', 'is', 'are', 'be'].filter((x) => x !== ok).slice(0, n - 1),
-        { ...meta, tag: 'be : am / is / are' }, rnd);
+        { ...meta, tag: 'be : am / is / are', src: 'p16' }, rnd);
     }
     const ok = subj.s ? 'has' : 'have';
-    const tail = pick(['a snack at 4 pm', 'a shower every morning', 'lunch at school', 'dinner at 8 pm'], rnd);
+    const tail = pick(['a snack at 4 pm', 'breakfast at 7 am', 'lunch at school', 'dinner at 8 pm'], rnd);
     return mcq(`${subj.w} ___ ${tail}.`, ok, ['have', 'has', 'haves', 'is'].filter((x) => x !== ok).slice(0, n - 1),
-      { ...meta, tag: 'have / has' }, rnd);
+      { ...meta, tag: 'have / has', src: 'p16 · p26' }, rnd);
   }
   if (kind === 'simpleVsIng') {
-    // L'erreur relevée en rouge le 5 novembre : « are playing every Sunday » → « play ».
+    // Une habitude (every Sunday, every evening) se dit au présent simple.
     const ko = subj.s ? ['is ' + ing(base), base, ing(base)] : ['are ' + ing(base), s3, ing(base)];
     return mcq(`${subj.w} ___ ${act.rest}. (habitude)`, verb, ko.slice(0, n - 1),
-      { ...meta, tag: 'Habitude → présent simple' }, rnd);
+      { ...meta, tag: 'Habitude → présent simple', src: 'p20 · ' + act.src }, rnd);
   }
   if (kind === 'sound') {
     const x = pick(S_SOUND, rnd);
     return mcq(`Le -s de « ${x.w} » se prononce…`, x.s, ['/s/', '/z/', '/iz/'].filter((y) => y !== x.s),
-      { ...meta, tag: 'Prononciation du -s' }, rnd);
+      { ...meta, tag: 'Prononciation du -s', src: x.src }, rnd);
   }
   if (kind === 'negSentence') {
-    // « Tom doesn't watches » et « Emma don't go » : les deux pièges du cahier.
+    // Après doesn't, le verbe reste à la base ; don't et doesn't selon la personne.
     const ok = `${subj.w} ${subj.s ? "doesn't" : "don't"} ${base} ${act.rest}.`;
     const ko = subj.s
       ? [`${subj.w} doesn't ${s3} ${act.rest}.`, `${subj.w} don't ${base} ${act.rest}.`, `${subj.w} isn't ${ing(base)} ${act.rest}.`]
       : [`${subj.w} doesn't ${base} ${act.rest}.`, `${subj.w} don't ${s3} ${act.rest}.`, `${subj.w} aren't ${base} ${act.rest}.`];
-    return mcq('Quelle phrase négative est juste ?', ok, ko.slice(0, n - 1), { ...meta, tag: 'La bonne négation' }, rnd);
+    return mcq('Quelle phrase négative est juste ?', ok, ko.slice(0, n - 1), { ...meta, tag: 'La bonne négation', src: 'p19 · p20 · ' + act.src }, rnd);
   }
   if (kind === 'quesSentence') {
     const s = pick(SUBJECTS.filter((x) => x.s && !/^(He|She)$/.test(x.w)), rnd);
     const ok = `Does ${s.w.replace(/^My /, 'your ')} ${base} ${act.rest}?`;
     const sw = s.w.replace(/^My /, 'your ');
     const ko = [`Does ${sw} ${s3} ${act.rest}?`, `Do ${sw} ${base} ${act.rest}?`, `Is ${sw} ${base} ${act.rest}?`];
-    return mcq('Quelle question est juste ?', ok, ko.slice(0, n - 1), { ...meta, tag: 'La bonne question' }, rnd);
+    return mcq('Quelle question est juste ?', ok, ko.slice(0, n - 1), { ...meta, tag: 'La bonne question', src: 'p19 · p20 · ' + act.src }, rnd);
   }
   // short : réponse courte
   const s = pick(SUBJECTS.filter((x) => x.w !== 'I' && x.w !== 'You' && x.w !== 'Joshua and I'), rnd);
@@ -363,7 +388,7 @@ function presentQuestion(level, opt) {
   const ko = yes
     ? [`Yes, ${pron} ${wrongAux}.`, `Yes, ${pron} ${s.s ? 'is' : 'are'}.`, `Yes, ${pron} ${s.s ? s3 : base}.`]
     : [`No, ${pron} ${wrongAux === 'does' ? "doesn't" : "don't"}.`, `No, ${pron} ${s.s ? "isn't" : "aren't"}.`, `No, ${pron} not.`];
-  return mcq(`${q} — ${yes ? 'Oui' : 'Non'}.`, ok, ko.slice(0, n - 1), { ...meta, tag: 'Réponse courte' }, rnd);
+  return mcq(`${q} — ${yes ? 'Oui' : 'Non'}.`, ok, ko.slice(0, n - 1), { ...meta, tag: 'Réponse courte', src: 'p19 · p20 · ' + act.src }, rnd);
 }
 
 /* ------------------------------------------------------------------ *
@@ -387,7 +412,7 @@ const OWNERS = [
   { w: 'Tom', det: 'his', s: true }, { w: 'Peter', det: 'his', s: true }, { w: 'My brother', det: 'his', s: true },
   { w: 'Hannah', det: 'her', s: true }, { w: 'My sister', det: 'her', s: true }, { w: 'Kate', det: 'her', s: true },
   { w: 'Kate and William', det: 'their', s: false }, { w: 'My parents', det: 'their', s: false },
-  { w: 'My sister and I', det: 'our', s: false }, { w: 'The dog', det: 'its', s: true }
+  { w: 'My sister and I', det: 'our', s: false }
 ];
 
 const OWNED = [
@@ -397,7 +422,7 @@ const OWNED = [
 
 function possQuestion(level, opt) {
   const rnd = opt.random || Math.random;
-  const meta = { fam: FAM.poss, famKey: 'poss' };
+  const meta = { fam: FAM.poss, famKey: 'poss', topic: 'possessives', src: 'p16' };
   const kinds = ['sentence', 'sentence', 'fr'];
   if (level >= 3) kinds.push('detVsPron');
   const kind = opt.kind || pick(kinds, rnd);
@@ -422,12 +447,12 @@ function possQuestion(level, opt) {
       [x.pron, ...sample(dets.filter((d) => d !== x.det), 2, rnd)].slice(0, n - 1),
       { ...meta, tag: 'Déterminant + nom' }, rnd);
   }
-  const o = pick(OWNERS.filter((y) => y.w !== 'The dog' || level >= 2), rnd);
-  const thing = pick(OWNED.filter((t) => o.w !== 'The dog' || t.what === 'face'), rnd);
+  const o = pick(OWNERS, rnd);
+  const thing = pick(OWNED, rnd);
   const v = o.s ? third(thing.v) : thing.v;
   const what = thing.what === 'face' && !o.s && o.w !== 'I' && o.w !== 'You' ? 'faces' : thing.what;
   const ko = sample(dets.filter((d) => d !== o.det), n - 1, rnd);
-  return mcq(`${o.w} ${v} ___ ${what}.`, o.det, ko, { ...meta, tag: 'my, your, his, her…' }, rnd);
+  return mcq(`${o.w} ${v} ___ ${what}.`, o.det, ko, { ...meta, tag: 'my, your, his, her…', src: 'p16 · p17' }, rnd);
 }
 
 /* ------------------------------------------------------------------ *
@@ -463,7 +488,7 @@ export const clock = (h, m) => `${h}:${String(m).padStart(2, '0')}`;
 
 function timeQuestion(level, opt) {
   const rnd = opt.random || Math.random;
-  const meta = { fam: FAM.time, famKey: 'time' };
+  const meta = { fam: FAM.time, famKey: 'time', topic: 'time', src: 'p23 · p27' };
   const kinds = ['m1', 'm1', 'read'];
   if (level >= 2) kinds.push('m2', 'ampm');
   if (level >= 3) kinds.push('m1', 'read');
@@ -494,7 +519,7 @@ function timeQuestion(level, opt) {
     const ko = [method2(h + 1, m), m ? `${MIN_WORD[m]} ${hourWord(h)}` : `${hourWord(h)} zero zero`,
       m === 0 ? `${hourWord(h)} hundred` : m < 10 ? `${hourWord(h)} ${MIN_WORD[m]}` : `${hourWord(h)} O ${MIN_WORD[m]}`]
       .filter((x) => x !== ok);
-    return mcq(`${clock(h, m)} — méthode 2 (digitale) : it's…`, ok, ko.slice(0, n - 1), { ...meta, tag: 'Heure digitale' }, rnd);
+    return mcq(`${clock(h, m)} — méthode 2 (digitale) : it's…`, ok, ko.slice(0, n - 1), { ...meta, tag: 'Heure digitale', src: 'p25 · p27' }, rnd);
   }
   if (kind === 'read') {
     const ok = clock(h, m);
@@ -509,7 +534,7 @@ function timeQuestion(level, opt) {
     const fr = morning ? `${hh} h du matin` : `${hh + 12} h`;
     const ok = `It's ${hh} ${morning ? 'am' : 'pm'}.`;
     const ko = [`It's ${hh} ${morning ? 'pm' : 'am'}.`, `It's ${hh + 12} ${morning ? 'am' : 'pm'}.`];
-    return mcq(`Il est ${fr}.`, ok, ko.filter((x) => x !== ok).slice(0, n - 1), { ...meta, tag: 'am / pm' }, rnd);
+    return mcq(`Il est ${fr}.`, ok, ko.filter((x) => x !== ok).slice(0, n - 1), { ...meta, tag: 'am / pm', src: 'p25' }, rnd);
   }
   const ok = method1(h, m);
   return mcq(`${clock(h, m)} — méthode 1 (aiguilles) : it's…`, ok, traps().filter((x) => x !== ok).slice(0, n - 1),
@@ -522,40 +547,40 @@ function timeQuestion(level, opt) {
 
 /** Mots à écrire sans faute. `fr` est l'indice, `en` la réponse, `alts` les variantes justes. */
 export const SPELL_WORDS = [
-  { fr: 'le petit-déjeuner', en: 'breakfast', lvl: 1 },
-  { fr: "l'école", en: 'school', lvl: 1 },
-  { fr: 'les dents', en: 'teeth', lvl: 1 },
-  { fr: 'les cheveux', en: 'hair', lvl: 1 },
-  { fr: 'le visage', en: 'face', lvl: 1 },
-  { fr: 'le lit', en: 'bed', lvl: 1 },
-  { fr: 'le sac', en: 'bag', lvl: 1 },
-  { fr: 'le thé', en: 'tea', lvl: 1 },
-  { fr: 'le bain', en: 'bath', lvl: 1 },
-  { fr: 'la douche', en: 'shower', lvl: 2 },
-  { fr: 'le journal', en: 'newspaper', lvl: 2 },
-  { fr: 'le téléphone', en: 'phone', lvl: 1 },
-  { fr: 'les devoirs', en: 'homework', lvl: 2 },
-  { fr: 'le déjeuner (midi)', en: 'lunch', lvl: 2 },
-  { fr: 'le dîner (soir)', en: 'dinner', lvl: 2 },
-  { fr: 'le goûter', en: 'snack', lvl: 2 },
-  { fr: 'se réveiller', en: 'wake up', lvl: 1 },
-  { fr: "s'habiller", en: 'get dressed', lvl: 3 },
-  { fr: 'dormir', en: 'sleep', lvl: 1 },
-  { fr: 'la natation (go …)', en: 'swimming', lvl: 3 },
-  { fr: 'les magasins (go …)', en: 'shopping', lvl: 2 },
-  { fr: 'le cinéma', en: 'cinema', lvl: 2 },
-  { fr: 'la cornemuse', en: 'bagpipes', lvl: 3, alts: ['the bagpipes'] },
-  { fr: 'les jeux vidéo', en: 'video games', lvl: 2 },
-  { fr: 'la gymnastique', en: 'gymnastics', lvl: 3 },
-  { fr: 'mercredi', en: 'Wednesday', lvl: 3 },
-  { fr: 'jeudi', en: 'Thursday', lvl: 3 },
-  { fr: 'samedi', en: 'Saturday', lvl: 2 },
-  { fr: 'le week-end', en: 'weekend', lvl: 2, alts: ['week-end', 'the weekend'] },
-  { fr: "d'abord", en: 'first', lvl: 1 },
-  { fr: 'ensuite', en: 'then', lvl: 1 },
-  { fr: 'enfin', en: 'finally', lvl: 2 },
-  { fr: 'un quart (d\'heure)', en: 'quarter', lvl: 2, alts: ['a quarter'] },
-  { fr: 'et demie', en: 'half past', lvl: 2 }
+  { fr: 'le petit-déjeuner', en: 'breakfast', lvl: 1, src: 'p14', topic: 'routine-vocab' },
+  { fr: "l'école", en: 'school', lvl: 1, src: 'p14', topic: 'routine-vocab' },
+  { fr: 'les dents', en: 'teeth', lvl: 1, src: 'p14', topic: 'routine-vocab' },
+  { fr: 'les cheveux', en: 'hair', lvl: 1, src: 'p14', topic: 'routine-vocab' },
+  { fr: 'le visage', en: 'face', lvl: 1, src: 'p14', topic: 'routine-vocab' },
+  { fr: 'le lit', en: 'bed', lvl: 1, src: 'p14', topic: 'routine-vocab' },
+  { fr: 'le sac', en: 'bag', lvl: 1, src: 'p14', topic: 'routine-vocab' },
+  { fr: 'le thé', en: 'tea', lvl: 1, src: 'p14', topic: 'routine-vocab' },
+  { fr: 'le bain', en: 'bath', lvl: 1, src: 'p14', topic: 'routine-vocab' },
+  { fr: 'la douche', en: 'shower', lvl: 2, src: 'p14', topic: 'routine-vocab' },
+  { fr: 'le journal', en: 'newspaper', lvl: 2, src: 'p14', topic: 'routine-vocab' },
+  { fr: 'le téléphone', en: 'phone', lvl: 1, src: 'p14', topic: 'routine-vocab' },
+  { fr: 'les devoirs', en: 'homework', lvl: 2, src: 'p26', topic: 'routine-vocab' },
+  { fr: 'le déjeuner (midi)', en: 'lunch', lvl: 2, src: 'p26', topic: 'routine-vocab' },
+  { fr: 'le dîner (soir)', en: 'dinner', lvl: 2, src: 'p24', topic: 'routine-vocab' },
+  { fr: 'le goûter', en: 'snack', lvl: 2, src: 'p26', topic: 'routine-vocab' },
+  { fr: 'se réveiller', en: 'wake up', lvl: 1, src: 'p14', topic: 'routine-vocab' },
+  { fr: "s'habiller", en: 'get dressed', lvl: 3, src: 'p14', topic: 'routine-vocab' },
+  { fr: 'dormir', en: 'sleep', lvl: 1, src: 'p26', topic: 'routine-vocab' },
+  { fr: 'la natation (go …)', en: 'swimming', lvl: 3, src: 'p22', topic: 'free-time' },
+  { fr: 'les magasins (go …)', en: 'shopping', lvl: 2, src: 'p22', topic: 'free-time' },
+  { fr: 'le cinéma', en: 'cinema', lvl: 2, src: 'p22', topic: 'free-time' },
+  { fr: 'la cornemuse', en: 'bagpipes', lvl: 3, alts: ['the bagpipes'], src: 'p22', topic: 'free-time' },
+  { fr: 'les jeux vidéo', en: 'video games', lvl: 2, src: 'p22', topic: 'free-time' },
+  { fr: 'la gymnastique', en: 'gymnastics', lvl: 3, src: 'p22', topic: 'free-time' },
+  { fr: 'mercredi', en: 'Wednesday', lvl: 3, src: 'p18', topic: 'free-time' },
+  { fr: 'mardi', en: 'Tuesday', lvl: 3, src: 'p18', topic: 'free-time' },
+  { fr: 'dimanche', en: 'Sunday', lvl: 2, src: 'p18', topic: 'free-time' },
+  { fr: 'le week-end', en: 'weekend', lvl: 2, alts: ['week-end', 'the weekend'], src: 'p18', topic: 'free-time' },
+  { fr: "d'abord", en: 'first', lvl: 1, src: 'p14', topic: 'sequencers' },
+  { fr: 'ensuite', en: 'then', lvl: 1, src: 'p14', topic: 'sequencers' },
+  { fr: 'enfin', en: 'finally', lvl: 2, src: 'p14', topic: 'sequencers' },
+  { fr: 'un quart (d\'heure)', en: 'quarter', lvl: 2, alts: ['a quarter'], src: 'p23', topic: 'time' },
+  { fr: 'et demie', en: 'half past', lvl: 2, src: 'p23', topic: 'time' }
 ];
 
 /** Les verbes à la 3e personne, pour taper le -s ou le -es. */
@@ -571,15 +596,15 @@ function spellQuestion(level, opt) {
   if (kind === 'verb') {
     const v = pick(SPELL_VERBS, rnd);
     const who = pick(['He', 'She', 'Tom', 'My sister', 'Hannah'], rnd);
-    return typed(`${who} … (${v}) → écris le verbe`, third(v), { ...meta, tag: '-s / -es à la 3e personne' });
+    return typed(`${who} … (${v}) → écris le verbe`, third(v), { ...meta, tag: '-s / -es à la 3e personne', topic: 'present-simple', src: 'p15' });
   }
   if (kind === 'det') {
     const x = pick(POSSESSIVES.filter((y) => y.p !== 'it'), rnd);
-    return typed(`${x.p} → ${x.fr} : écris le déterminant`, x.det, { ...meta, tag: 'Possessif à écrire' });
+    return typed(`${x.p} → ${x.fr} : écris le déterminant`, x.det, { ...meta, tag: 'Possessif à écrire', topic: 'possessives', src: 'p16' });
   }
   const pool = SPELL_WORDS.filter((w) => w.lvl <= Math.max(1, level));
   const w = pick(pool, rnd);
-  return typed(`${w.fr} → en anglais`, w.en, { ...meta, tag: 'Écris le mot' }, w.alts || []);
+  return typed(`${w.fr} → en anglais`, w.en, { ...meta, tag: 'Écris le mot', topic: w.topic, src: w.src }, w.alts || []);
 }
 
 /* ------------------------------------------------------------------ *
@@ -591,7 +616,7 @@ const GENS = {
   poss: possQuestion, time: timeQuestion, spell: spellQuestion
 };
 
-/** Le mélange pèse plus lourd sur les points faibles du cahier : présent simple et heure. */
+/** Le mélange pèse plus lourd sur le présent simple et l'heure, les deux grosses rubriques de la fiche. */
 const MIX_WEIGHTS = ['routine', 'free', 'present', 'present', 'poss', 'time', 'time', 'spell'];
 
 /**

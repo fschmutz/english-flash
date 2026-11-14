@@ -33,7 +33,7 @@ Les captures sont prises avec un prénom fictif.
 | Mode | Ce qu'on révise | Comment on répond |
 | --- | --- | --- |
 | `routine` | Vocabox *Morning routine* et *Daily routine*, anglais ↔ français, *eat / have*, First / Then / After / Finally. | Boutons à toucher |
-| `free` | Vocabox *Free time activities* : DO, GO ou PLAY ? Traductions, et compréhension des quatre textes *Around the world*. | Boutons à toucher |
+| `free` | Vocabox *Free time activities* : DO, GO ou PLAY ? Traductions, et compréhension des quatre textes *Around the world* (leurs activités, pas leur pays). | Boutons à toucher |
 | `present` | Présent simple aux trois formes : le -s de la 3e personne, *don't / doesn't*, *Do / Does*, la bonne phrase négative ou interrogative (*Tom doesn't watch*, jamais *doesn't watches*), habitude → présent simple et pas -ing, réponses courtes, *am / is / are*, *have / has*, prononciation /s/ /z/ /iz/. | Boutons à toucher |
 | `poss` | my, your, his, her, its, our, their selon le sujet ; au palier 3, déterminant (*her bag*) ou pronom (*it's hers*). | Boutons à toucher |
 | `time` | L'heure, méthode 1 (*a quarter to six*, *twenty-five past ten*) et méthode 2 (*seven fifteen*, *eleven O five*), dans les deux sens, et am / pm. | Boutons à toucher |
