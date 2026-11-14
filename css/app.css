@@ -605,3 +605,54 @@ button:focus-visible, .field:focus-visible, a:focus-visible {
 @media (min-width: 420px) {
   .q-text { font-size: 28px; }
 }
+
+/* ---------- niveaux ---------- */
+.chip.locked {
+  opacity: .55;
+  border-style: dashed;
+  cursor: not-allowed;
+}
+.lock-hint { margin-top: 8px; }
+.lock-hint.flash { animation: shake .3s; color: var(--sun); }
+#freeToggle {
+  display: block;
+  margin-top: 8px;
+  font-size: 12.5px;
+  text-align: left;
+}
+#freeToggle[aria-pressed="true"] { color: var(--sun); }
+.voice-msg {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  border: 2px solid var(--rose);
+  border-radius: 12px;
+  color: var(--cream);
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+.play-btn:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ---------- dictée et réponses longues ---------- */
+.replay {
+  margin-top: 10px;
+  background: #0a2740;
+  border: 2px solid var(--cyan);
+  color: var(--cream);
+  border-radius: 12px;
+  padding: 8px 14px;
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.q-text.xxlong { font-size: 16px; }
+.answer.long {
+  font-size: 17px;
+  line-height: 1.35;
+  text-align: left;
+  word-break: break-word;
+}

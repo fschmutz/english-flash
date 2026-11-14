@@ -23,13 +23,17 @@ documentation du dépôt ; il vient du modèle
 
 Captures de la borne, prises avec un prénom fictif.
 
-![Écran de choix : sept entraînements, trois niveaux, trois durées](https://github.com/fschmutz/english-flash/raw/main/docs/screenshots/setup.png)
+![Écran de choix : cinq niveaux, dont quatre fermés, puis les entraînements du niveau 1](https://github.com/fschmutz/english-flash/raw/main/docs/screenshots/setup.png)
 
 ![Une question sur l'heure avec quatre réponses à toucher](https://github.com/fschmutz/english-flash/raw/main/docs/screenshots/question.png)
 
 ![Une question d'orthographe avec le clavier QWERTY de la borne](https://github.com/fschmutz/english-flash/raw/main/docs/screenshots/orthographe.png)
 
 ![Récap de fin de manche : score, réussite, questions à revoir](https://github.com/fschmutz/english-flash/raw/main/docs/screenshots/recap.png)
+
+![Une question de niveau 4 sur le registre : quelle phrase est la plus formelle](https://github.com/fschmutz/english-flash/raw/main/docs/screenshots/gcse.png)
+
+![La dictée : bouton Réécouter et phrase tapée au clavier de la borne](https://github.com/fschmutz/english-flash/raw/main/docs/screenshots/dictee.png)
 
 ## How this wiki works
 

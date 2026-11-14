@@ -1,4 +1,4 @@
-const CACHE = 'english-flash-v2';
+const CACHE = 'english-flash-v3';
 const SHELL = [
   './',
   './index.html',
@@ -6,6 +6,10 @@ const SHELL = [
   './css/app.css',
   './js/app.js',
   './js/generate.js',
+  './js/bank.js',
+  './js/levels.js',
+  './js/engine.js',
+  './js/progress.js',
   './js/fx.js',
   './js/version.js',
   './assets/favicon.svg',
