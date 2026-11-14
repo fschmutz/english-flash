@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>English Flash</title>
+<meta name="description" content="Arcade d'anglais 6ème dans le navigateur. Daily routine, free time, présent simple, l'heure. Rien n'est envoyé.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="English Flash">
+<meta name="theme-color" content="#06182B">
+<meta name="color-scheme" content="dark">
+<meta name="format-detection" content="telephone=no">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; worker-src 'self'; connect-src 'self'; img-src 'self'; media-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/favicon.svg">
+<link rel="manifest" href="manifest.webmanifest">
+<meta property="og:title" content="English Flash">
+<meta property="og:description" content="My daily routine. 60 secondes.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<a class="skip" href="#who">Aller au jeu</a>
+<noscript><p class="noscript-msg">Cette page a besoin de JavaScript pour poser les questions.</p></noscript>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<div class="cabinet">
+  <div class="update hide" id="updateBanner" role="status">
+    <span>Une nouvelle version est sur le serveur.</span>
+    <button type="button" class="ghost" id="reloadBtn">Recharger la dernière version</button>
+  </div>
+
+  <div class="marquee">
+    <button type="button" class="mute" id="mute" aria-label="Couper le son">🔊</button>
+
+    <svg class="logo" viewBox="0 0 280 150" role="img" aria-label="English Flash">
+      <defs>
+        <linearGradient id="gWord" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#7FD4FF"/>
+          <stop offset="50%" stop-color="#EEF7FF"/>
+          <stop offset="100%" stop-color="#FF5C7A"/>
+        </linearGradient>
+      </defs>
+
+      <!-- une horloge « a quarter past » et deux bulles de dialogue -->
+      <g fill="none" stroke-width="3" stroke-linecap="round">
+        <circle cx="140" cy="58" r="34" stroke="#7FD4FF"/>
+        <path d="M140 58 V34" stroke="#EEF7FF"/>
+        <path d="M140 58 H160" stroke="#FFC93C"/>
+        <rect x="20" y="30" width="68" height="34" rx="12" stroke="#FF5C7A" stroke-dasharray="7 6"/>
+        <rect x="192" y="44" width="68" height="34" rx="12" stroke="#2BD9D2" stroke-dasharray="7 6"/>
+      </g>
+      <circle cx="140" cy="58" r="4" fill="#FFC93C"/>
+      <text x="54" y="53" text-anchor="middle" font-family="Trebuchet MS, sans-serif" font-weight="700" font-size="14" fill="#FF5C7A">Hello!</text>
+      <text x="226" y="67" text-anchor="middle" font-family="Trebuchet MS, sans-serif" font-weight="700" font-size="14" fill="#2BD9D2">I do!</text>
+
+      <!-- Impact n'existe pas partout : le repli garde un mot épais. -->
+      <text x="140" y="128" text-anchor="middle" font-family="Impact, Haettenschweiler, 'Arial Black', sans-serif"
+            font-weight="800" font-size="36" fill="url(#gWord)" letter-spacing="2">ENGLISH</text>
+      <text x="140" y="145" text-anchor="middle" font-family="Trebuchet MS, sans-serif" font-weight="700"
+            font-size="12" fill="#8FB3CC" letter-spacing="7">F L A S H</text>
+    </svg>
+
+    <p id="tagline">Le chrono tourne. À toi de jouer, Paloma !</p>
+  </div>
+
+  <section class="panel" id="who">
+    <p class="eyebrow">Qui joue aujourd'hui ?</p>
+    <input class="field" id="pname" type="text" maxlength="14" autocomplete="off"
+           spellcheck="false" placeholder="Ton prénom" value="Paloma">
+    <p class="hint">Unit 4 « My daily routine » : les trois vocabox, le présent simple, les possessifs et l'heure. Un cran au-dessus du cahier.</p>
+    <button type="button" class="play-btn" id="toSetup">C'EST PARTI</button>
+  </section>
+
+  <section class="panel hide" id="setup">
+    <p class="eyebrow">1 — Choisis ton entraînement</p>
+    <div class="chips" id="modes">
+      <button type="button" class="chip" data-mode="routine" aria-pressed="true">
+        <span>Ma routine</span><small>Morning + Daily routine, EN ↔ FR</small>
+      </button>
+      <button type="button" class="chip" data-mode="free" aria-pressed="false">
+        <span>Free time</span><small>do, go ou play ? Around the world</small>
+      </button>
+      <button type="button" class="chip" data-mode="present" aria-pressed="false">
+        <span>Présent simple</span><small>-s, don't / doesn't, do / does</small>
+      </button>
+      <button type="button" class="chip" data-mode="poss" aria-pressed="false">
+        <span>Possessifs</span><small>my, your, his, her, its, our, their</small>
+      </button>
+      <button type="button" class="chip" data-mode="time" aria-pressed="false">
+        <span>L'heure</span><small>past / to, heure digitale, am / pm</small>
+      </button>
+      <button type="button" class="chip" data-mode="spell" aria-pressed="false">
+        <span>Orthographe</span><small>écris le mot au clavier</small>
+      </button>
+      <button type="button" class="chip wide" data-mode="mix" aria-pressed="false">
+        <span>Mélange — l'évaluation</span><small>tout, sans prévenir, plus de présent simple et d'heure</small>
+      </button>
+    </div>
+
+    <p class="eyebrow spaced">2 — Niveau</p>
+    <div class="chips" id="diffs">
+      <button type="button" class="chip" data-diff="facile" aria-pressed="false">
+        <span>🙂 Tranquille</span><small>3 réponses au choix, 2 s de pénalité</small>
+      </button>
+      <button type="button" class="chip" data-diff="moyen" aria-pressed="true">
+        <span>😃 6ème</span><small>le niveau du cahier, 3 s de pénalité</small>
+      </button>
+      <button type="button" class="chip wide" data-diff="expert" aria-pressed="false">
+        <span>🤩 5ème</span><small>phrases pièges, heures en « to », 4 s de pénalité, points doublés</small>
+      </button>
+    </div>
+
+    <p class="eyebrow spaced">3 — Durée de la manche</p>
+    <div class="row-3" id="durs">
+      <button type="button" class="chip" data-dur="45" aria-pressed="false">45 s</button>
+      <button type="button" class="chip" data-dur="60" aria-pressed="true">60 s</button>
+      <button type="button" class="chip" data-dur="120" aria-pressed="false">2 min</button>
+    </div>
+
+    <button type="button" class="play-btn" id="start">JOUER</button>
+    <button type="button" class="ghost" id="changePlayer">Changer de joueur</button>
+  </section>
+
+  <section class="panel hide" id="play">
+    <div class="hud">
+      <div class="hud-box"><div class="hud-label">Temps</div><div class="hud-val time" id="time">60</div></div>
+      <div class="hud-box"><div class="hud-label">Score</div><div class="hud-val" id="score">0</div></div>
+    </div>
+    <div class="chrono"><progress id="bar" max="1000" value="1000"></progress></div>
+    <div class="bumpers">
+      <span class="lvl" id="lvl">Palier 1</span>
+      <span class="bump" id="b0"></span><span class="bump" id="b1"></span><span class="bump" id="b2"></span>
+      <span class="multi" id="multi">×2</span>
+    </div>
+    <div class="question" id="qcard" aria-live="polite">
+      <div class="q-tag" id="qtag">Ma routine</div>
+      <div class="q-text" id="qtext">se réveiller</div>
+    </div>
+    <div class="answer empty" id="ans">Écris ta réponse</div>
+    <div class="choices hide" id="choices" role="group" aria-label="Touche la bonne réponse"></div>
+    <div class="pad" id="pad" role="group" aria-label="Clavier">
+      <div class="kb-row"><button type="button" class="key" data-k="q">q</button><button type="button" class="key" data-k="w">w</button><button type="button" class="key" data-k="e">e</button><button type="button" class="key" data-k="r">r</button><button type="button" class="key" data-k="t">t</button><button type="button" class="key" data-k="y">y</button><button type="button" class="key" data-k="u">u</button><button type="button" class="key" data-k="i">i</button><button type="button" class="key" data-k="o">o</button><button type="button" class="key" data-k="p">p</button></div>
+      <div class="kb-row r2"><button type="button" class="key" data-k="a">a</button><button type="button" class="key" data-k="s">s</button><button type="button" class="key" data-k="d">d</button><button type="button" class="key" data-k="f">f</button><button type="button" class="key" data-k="g">g</button><button type="button" class="key" data-k="h">h</button><button type="button" class="key" data-k="j">j</button><button type="button" class="key" data-k="k">k</button><button type="button" class="key" data-k="l">l</button></div>
+      <div class="kb-row r3"><button type="button" class="key fn" data-k="'" aria-label="Apostrophe">'</button><button type="button" class="key" data-k="z">z</button><button type="button" class="key" data-k="x">x</button><button type="button" class="key" data-k="c">c</button><button type="button" class="key" data-k="v">v</button><button type="button" class="key" data-k="b">b</button><button type="button" class="key" data-k="n">n</button><button type="button" class="key" data-k="m">m</button><button type="button" class="key fn" data-k="del" aria-label="Effacer">⌫</button></div>
+      <div class="kb-row r4"><button type="button" class="key fn" data-k="-" aria-label="Tiret">-</button><button type="button" class="key fn" data-k="space" aria-label="Espace">espace</button><button type="button" class="key go" data-k="ok">OK</button></div>
+    </div>
+    <button type="button" class="linkish quit" id="quit">Arrêter la manche</button>
+  </section>
+
+  <section class="panel hide" id="over">
+    <div class="celeb hide" id="celeb">
+      <span class="icon" id="celebIcon">🎆</span>
+      <b id="celebTitle"></b>
+      <em id="celebSub"></em>
+    </div>
+    <div class="score-big" id="finalScore">0</div>
+    <div class="score-cap" id="finalCap">points</div>
+    <div class="stats">
+      <div class="stat"><b id="sGood">0</b><span>justes</span></div>
+      <div class="stat"><b id="sAcc">0%</b><span>réussite</span></div>
+      <div class="stat"><b id="sSpeed">0,0s</b><span>par question</span></div>
+    </div>
+    <div class="challenge">
+      <p class="eyebrow flush">Cette manche</p>
+      <div class="tags" id="chalTags"></div>
+      <ul class="fams" id="famList"></ul>
+    </div>
+    <p class="praise" id="praise"></p>
+    <div class="recap hide" id="recap">
+      <p class="eyebrow flush">À revoir tranquillement</p>
+      <ul id="recapList"></ul>
+    </div>
+    <button type="button" class="play-btn" id="again">REJOUER</button>
+    <button type="button" class="ghost hide" id="retry">Rejouer les erreurs</button>
+    <button type="button" class="ghost" id="back">Changer d'entraînement</button>
+  </section>
+</div>
+
+<footer class="foot">
+  <p class="ver">version <span id="verNum"></span>
+  · <button type="button" class="linkish" id="reloadLatest">Recharger la dernière version</button></p>
+  <p>Rien n'est envoyé. Pas de compte, pas de pub.</p>
+</footer>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
