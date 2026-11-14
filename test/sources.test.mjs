@@ -4,6 +4,9 @@ import {
   generateQuestion, FAM_KEYS, SOURCES, L1_TOPICS,
   ROUTINE, FREE_TIME, AROUND_THE_WORLD, ACTIONS, S_SOUND, SPELL_WORDS
 } from '../js/generate.js';
+import { question } from '../js/engine.js';
+import { STAGE_MODES } from '../js/levels.js';
+import { SPOT, DICTATION, L1_SRC } from '../js/bank.js';
 
 function mulberry32(a) {
   return function () {
@@ -64,5 +67,31 @@ test('les sources renvoient à des pages du cahier, chacune décrite', () => {
   for (const [k, v] of Object.entries(SOURCES)) {
     assert.match(k, /^p\d{1,2}$/);
     assert.ok(v.length > 10, k);
+  }
+});
+
+/* Niveau 1 de la version à cinq niveaux : « repère l'erreur » et la dictée suivent la même règle. */
+
+test("repère l'erreur et dictée du niveau 1 : une source et un thème par ligne", () => {
+  assert.equal(L1_SRC.spot.length, SPOT[1].length);
+  assert.equal(L1_SRC.listen.length, DICTATION[1].length);
+  for (const [topic, src] of [...L1_SRC.spot, ...L1_SRC.listen]) {
+    assert.ok(L1_TOPICS.includes(topic), topic);
+    assert.ok(srcOk(src), src);
+  }
+});
+
+test('chaque mode du niveau 1, y compris repère l\'erreur et dictée, reste dans le programme', () => {
+  for (const m of STAGE_MODES[1]) {
+    for (let level = 1; level <= 5; level++) {
+      const random = mulberry32(level * 31 + m.key.length);
+      for (let i = 0; i < 300; i++) {
+        const q = question(level, { stage: 1, mode: m.key, random });
+        assert.ok(srcOk(q.src), `${m.key}/${level} « ${q.t} » : source « ${q.src} »`);
+        assert.ok(L1_TOPICS.includes(q.topic), `${m.key}/${level} « ${q.t} » : thème « ${q.topic} »`);
+        const text = [q.t, q.say || '', q.aLabel, ...(q.choices || []).map((c) => c.label)].join(' | ');
+        for (const re of OFF_TOPIC) assert.ok(!re.test(text), `${m.key}/${level} hors programme (${re}) : ${text}`);
+      }
+    }
   }
 });

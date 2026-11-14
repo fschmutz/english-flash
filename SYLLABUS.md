@@ -125,3 +125,19 @@ Pronoms possessifs (sans nom après) : mine, yours, his, hers, its, ours, theirs
 - Méthode 2, heure digitale : l'heure puis les minutes. 7:15 = *it's seven fifteen*. Sous 10 minutes, le 0 se
   dit « O » : 11:05 = *it's eleven O five*.
 - am = le matin (*it's 8 am*), pm = l'après-midi et le soir (*it's 9 pm*).
+
+## Niveaux 2 à 5 (au-dessus de l'évaluation)
+
+Le niveau 1 est ce programme, et seulement lui. Les niveaux suivants suivent le programme anglais
+(National Curriculum, Key Stage 3 puis GCSE English Language), pour une élève presque native :
+
+| Niveau | Grammaire et langue | Transversal |
+| --- | --- | --- |
+| 2 · UK Year 7-8 | present / past simple, present / past perfect, continuous, futur ; verbes irréguliers (prétérit, participe passé, *got* à l'anglaise) ; comparatifs et superlatifs ; question tags | orthographe UK, mots pièges, repère l'erreur, dictée |
+| 3 · UK Year 9 | conditionnels 0, 1, 2, 3 ; passif ; discours indirect avec concordance des temps ; modaux et *must / might / should / can't have* ; phrasal verbs ; idioms | idem |
+| 4 · GCSE | metaphor, simile, personification, alliteration, onomatopoeia, hyperbole ; ton ; registre formel / informel (*Yours faithfully / sincerely*) ; classes de mots ; types de phrases et leur effet | idem |
+| 5 · Native stretch | confusables (affect / effect, fewer / less, who / whom, its / it's, practise / practice…) ; vocabulaire soutenu et collocations ; britannique ou américain ; ponctuation : point-virgule, deux-points, apostrophe, virgules | idem |
+
+Orthographe britannique retenue : *-our* (colour), *-re* (centre), *-ise* (organise), *-ll-* (travelled),
+*programme*, *grey*, *pyjamas*. L'orthographe d'Oxford accepte aussi *-ize* ; le jeu attend *-ise*, la forme la
+plus courante à l'école au Royaume-Uni.

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>English Flash</title>
-<meta name="description" content="Arcade d'anglais 6ème dans le navigateur. Daily routine, free time, présent simple, l'heure. Rien n'est envoyé.">
+<meta name="description" content="Arcade d'anglais dans le navigateur, du collège 6e au niveau natif britannique : temps, conditionnels, figures de style, confusables, dictée. Rien n'est envoyé.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -71,37 +71,21 @@
     <p class="eyebrow">Qui joue aujourd'hui ?</p>
     <input class="field" id="pname" type="text" maxlength="14" autocomplete="off"
            spellcheck="false" placeholder="Ton prénom" value="Paloma">
-    <p class="hint">Unit 4 « My daily routine » : les trois vocabox, le présent simple, les possessifs et l'heure. Un cran au-dessus du cahier.</p>
+    <p class="hint">Niveau 1 : Unit 4 « My daily routine », pour l'évaluation. Quatre niveaux au-dessus, jusqu'à l'anglais d'une école britannique exigeante.</p>
     <button type="button" class="play-btn" id="toSetup">C'EST PARTI</button>
   </section>
 
   <section class="panel hide" id="setup">
-    <p class="eyebrow">1 — Choisis ton entraînement</p>
-    <div class="chips" id="modes">
-      <button type="button" class="chip" data-mode="routine" aria-pressed="true">
-        <span>Ma routine</span><small>Morning + Daily routine, EN ↔ FR</small>
-      </button>
-      <button type="button" class="chip" data-mode="free" aria-pressed="false">
-        <span>Free time</span><small>do, go ou play ? Around the world</small>
-      </button>
-      <button type="button" class="chip" data-mode="present" aria-pressed="false">
-        <span>Présent simple</span><small>-s, don't / doesn't, do / does</small>
-      </button>
-      <button type="button" class="chip" data-mode="poss" aria-pressed="false">
-        <span>Possessifs</span><small>my, your, his, her, its, our, their</small>
-      </button>
-      <button type="button" class="chip" data-mode="time" aria-pressed="false">
-        <span>L'heure</span><small>past / to, heure digitale, am / pm</small>
-      </button>
-      <button type="button" class="chip" data-mode="spell" aria-pressed="false">
-        <span>Orthographe</span><small>écris le mot au clavier</small>
-      </button>
-      <button type="button" class="chip wide" data-mode="mix" aria-pressed="false">
-        <span>Mélange — l'évaluation</span><small>tout, sans prévenir, plus de présent simple et d'heure</small>
-      </button>
-    </div>
+    <p class="eyebrow">1 — Ton niveau</p>
+    <div class="chips stages" id="stages"></div>
+    <p class="hint lock-hint" id="lockHint">Un niveau s'ouvre à 85 % de réussite sur le niveau d'avant (manche de 10 questions au moins).</p>
+    <button type="button" class="linkish" id="freeToggle" aria-pressed="false">Mode parent : ouvrir tous les niveaux</button>
 
-    <p class="eyebrow spaced">2 — Niveau</p>
+    <p class="eyebrow spaced">2 — Choisis ton entraînement</p>
+    <div class="chips" id="modes"></div>
+    <p class="voice-msg hide" id="voiceMsg" role="status"></p>
+
+<p class="eyebrow spaced">3 — Difficulté</p>
     <div class="chips" id="diffs">
       <button type="button" class="chip" data-diff="facile" aria-pressed="false">
         <span>🙂 Tranquille</span><small>3 réponses au choix, 2 s de pénalité</small>
@@ -114,7 +98,7 @@
       </button>
     </div>
 
-    <p class="eyebrow spaced">3 — Durée de la manche</p>
+    <p class="eyebrow spaced">4 — Durée de la manche</p>
     <div class="row-3" id="durs">
       <button type="button" class="chip" data-dur="45" aria-pressed="false">45 s</button>
       <button type="button" class="chip" data-dur="60" aria-pressed="true">60 s</button>
@@ -139,6 +123,7 @@
     <div class="question" id="qcard" aria-live="polite">
       <div class="q-tag" id="qtag">Ma routine</div>
       <div class="q-text" id="qtext">se réveiller</div>
+      <button type="button" class="replay hide" id="replay">🔊 Réécouter</button>
     </div>
     <div class="answer empty" id="ans">Écris ta réponse</div>
     <div class="choices hide" id="choices" role="group" aria-label="Touche la bonne réponse"></div>

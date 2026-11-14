@@ -1,5 +1,8 @@
 import { APP_VERSION } from './version.js';
-import { createDealer, FAM, isCorrect } from './generate.js';
+import { FAM, isCorrect } from './generate.js';
+import { createDealer } from './engine.js';
+import { STAGES, STAGE_MODES, STAGE_FAM } from './levels.js';
+import { record, isUnlocked, UNLOCK_PCT, MIN_QUESTIONS } from './progress.js';
 
 /** Une décimale à la française pour les secondes du récap. */
 const fr = (n) => (Math.round(n * 1e6) / 1e6).toString().replace('.', ',');
@@ -9,8 +12,12 @@ const $ = (id) => document.getElementById(id);
 
 const LS_PLAYER = 'english-flash-player';
 const LS_RECORDS = 'english-flash-records';
+const LS_LEVELS = 'english-flash-levels';
+const LS_FREE = 'english-flash-free';
 
-let mode = 'routine', diff = 'moyen', duration = 60;
+/** Le niveau 1 (Unit 4) est toujours celui du démarrage : l'évaluation d'abord. */
+let stage = 1, mode = 'routine', diff = 'moyen', duration = 60;
+let levels = {}, free = false;
 let player = { name: 'Paloma' };
 let records = {};
 
@@ -21,7 +28,22 @@ const RULES = {
   expert: { start: 3, max: 5, min: 2, penalty: 4, bonus: 2, step: 3 }
 };
 const R = () => RULES[diff];
-const DIFF_NAME = { facile: 'Tranquille', moyen: '6ème', expert: '5ème' };
+const DIFF_L1 = { facile: 'Tranquille', moyen: '6ème', expert: '5ème' };
+const DIFF_UP = { facile: 'Échauffement', moyen: 'Standard', expert: 'Défi' };
+const DIFF_NAME = new Proxy({}, { get: (_, k) => (stage === 1 ? DIFF_L1 : DIFF_UP)[k] });
+const DIFF_SUB = {
+  1: {
+    facile: '3 réponses au choix, 2 s de pénalité',
+    moyen: 'le niveau du cahier, 3 s de pénalité',
+    expert: 'phrases pièges, heures en « to », 4 s de pénalité, points doublés'
+  },
+  up: {
+    facile: '3 réponses au choix, 2 s de pénalité',
+    moyen: '4 réponses au choix, 3 s de pénalité',
+    expert: 'départ au palier 3, 4 s de pénalité, points doublés'
+  }
+};
+const famName = (k) => FAM[k] || STAGE_FAM[k] || k;
 
 /* ---------- mémoire locale ---------- */
 
@@ -34,7 +56,19 @@ function loadPersisted() {
     const r = JSON.parse(localStorage.getItem(LS_RECORDS) || '{}');
     if (r && typeof r === 'object' && !Array.isArray(r)) records = r;
   } catch { records = {}; }
+  try {
+    const l = JSON.parse(localStorage.getItem(LS_LEVELS) || '{}');
+    if (l && typeof l === 'object' && !Array.isArray(l)) levels = l;
+  } catch { levels = {}; }
+  try { free = localStorage.getItem(LS_FREE) === '1'; } catch { free = false; }
 }
+function saveLevels() {
+  try { localStorage.setItem(LS_LEVELS, JSON.stringify(levels)); } catch { /* quota */ }
+}
+function saveFree() {
+  try { localStorage.setItem(LS_FREE, free ? '1' : '0'); } catch { /* quota */ }
+}
+const bestOf = () => levels[player.name] || {};
 function savePlayer() {
   try { localStorage.setItem(LS_PLAYER, JSON.stringify({ name: player.name })); } catch { /* quota */ }
 }
@@ -94,7 +128,7 @@ function reset(queue) {
     running: false, left: duration, score: 0, shown: 0, streak: 0, best: 0,
     good: 0, total: 0, level: R().start, top: R().start,
     q: null, typed: '', qStart: 0, log: [], locked: false,
-    dealer: createDealer({ mode, diff, memory: 10 }),
+    dealer: createDealer({ mode, diff, stage, memory: 10 }),
     queue: Array.isArray(queue) ? queue.slice() : null
   };
 }
@@ -128,8 +162,9 @@ function paintLevel(up) {
 function paintAnswer(bad) {
   const el = $('ans');
   el.classList.toggle('bad', !!bad);
-  if (G.typed === '') { el.classList.add('empty'); el.textContent = 'Écris ta réponse'; }
+  if (G.typed === '') { el.classList.add('empty'); el.textContent = G.q && G.q.say ? 'Écris la phrase entendue' : 'Écris ta réponse'; }
   else { el.classList.remove('empty'); el.textContent = G.typed; }
+  el.classList.toggle('long', G.typed.length > 22);
 }
 
 function nextQ() {
@@ -148,6 +183,9 @@ function nextQ() {
   $('qtag').textContent = G.q.tag;
   qt.classList.toggle('long', G.q.t.length > 26);
   qt.classList.toggle('xlong', G.q.t.length > 44);
+  qt.classList.toggle('xxlong', G.q.t.length > 80);
+  $('replay').classList.toggle('hide', !G.q.say);
+  if (G.q.say) speak(G.q.say);
   const c = $('qcard');
   c.classList.remove('in', 'good', 'bad');
   void c.offsetWidth;
@@ -253,7 +291,7 @@ function press(k) {
     G.typed += ' ';
     return paintAnswer(false);
   }
-  if (G.typed.length >= 24) return;
+  if (G.typed.length >= (G.q && G.q.say ? 90 : 24)) return;
   G.typed += k;
   paintAnswer(false);
 }
@@ -271,6 +309,7 @@ document.addEventListener('keydown', (e) => {
   }
   if (e.ctrlKey || e.metaKey || e.altKey) return;
   if (/^[a-zA-Z'-]$/.test(e.key)) { e.preventDefault(); press(e.key.toLowerCase()); }
+  else if (/^[.,;:!?]$/.test(e.key) && G.q && G.q.say) { e.preventDefault(); }
   else if (e.key === ' ') { e.preventDefault(); press('space'); }
   else if (e.key === 'Backspace') { e.preventDefault(); press('del'); }
   else if (e.key === 'Enter') { e.preventDefault(); press('ok'); }
@@ -321,7 +360,14 @@ function finish() {
   $('sSpeed').textContent = fr(Math.round(avg * 10) / 10) + 's';
 
   const rec = records[player.name] = records[player.name] || {};
-  const key = mode + ':' + diff;
+  const key = (stage === 1 ? '' : 'L' + stage + ':') + mode + ':' + diff;
+  if (window.speechSynthesis) try { speechSynthesis.cancel(); } catch { /* ignore */ }
+  const wasOpen = isUnlocked(bestOf(), stage + 1, false);
+  if (!G.queue) {
+    levels[player.name] = record(bestOf(), stage, G.good, G.total);
+    saveLevels();
+  }
+  const opened = stage < STAGES.length && !wasOpen && isUnlocked(bestOf(), stage + 1, false);
   const isRecord = G.total > 0 && G.score > (rec[key] || 0);
   if (!G.queue) {
     rec[key] = Math.max(rec[key] || 0, G.score);
@@ -337,7 +383,8 @@ function finish() {
   const tags = $('chalTags');
   tags.replaceChildren();
   [
-    [FAM[mode] || mode, true],
+    ['Niveau ' + stage, true],
+    [famName(mode), true],
     [DIFF_NAME[diff], true],
     ['palier ' + G.top + '/' + R().max, false],
     [duration < 120 ? duration + ' s' : '2 min', false],
@@ -399,7 +446,11 @@ function finish() {
   else if (acc >= 90) msg = 'Presque tout juste, ' + player.name + '. Maintenant, plus vite.';
   else if (acc >= 70) msg = 'Bonne manche. Regarde la liste en dessous et relance.';
   else msg = 'On relit la leçon du cahier, ' + player.name + ', puis on relance une manche.';
-  if (acc >= 90 && avg < 3.5 && diff !== 'expert') msg += ' Essaie le niveau au-dessus.';
+  if (acc >= 90 && avg < 3.5 && diff !== 'expert') msg += ' Essaie la difficulté au-dessus.';
+  if (opened) msg += ' Niveau ' + (stage + 1) + ' débloqué : ' + STAGES[stage].name + ' !';
+  else if (!G.queue && stage < STAGES.length && !wasOpen && G.total < MIN_QUESTIONS && acc >= UNLOCK_PCT) {
+    msg += ' Il faut ' + MIN_QUESTIONS + ' questions dans la manche pour débloquer le niveau ' + (stage + 1) + '.';
+  }
   if (G.best >= 5) msg += ' Meilleure série : ' + G.best + ' d’affilée.';
   $('praise').textContent = msg;
 
@@ -449,6 +500,7 @@ $('toSetup').addEventListener('click', () => {
   const n = $('pname').value.trim();
   player.name = n === '' ? 'Championne' : n.charAt(0).toUpperCase() + n.slice(1);
   savePlayer();
+  paintSetup();
   $('tagline').textContent = 'Le chrono tourne. À toi de jouer, ' + player.name + ' !';
   $('who').classList.add('hide');
   $('setup').classList.remove('hide');
@@ -468,8 +520,127 @@ function chipGroup(id, assign) {
     assign(b.dataset);
   });
 }
-chipGroup('modes', (d) => { mode = d.mode; });
+chipGroup('modes', (d) => { mode = d.mode; checkVoice(); });
 chipGroup('diffs', (d) => { diff = d.diff; });
+
+/* ---------- niveaux ---------- */
+
+function chip(cls, pressed, title, sub, data) {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = cls;
+  b.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+  Object.assign(b.dataset, data);
+  const t = document.createElement('span');
+  t.textContent = title;
+  const s = document.createElement('small');
+  s.textContent = sub;
+  b.append(t, s);
+  return b;
+}
+
+function paintStages() {
+  const box = $('stages');
+  box.replaceChildren();
+  const best = bestOf();
+  STAGES.forEach((st) => {
+    const open = isUnlocked(best, st.n, free);
+    const pct = best[st.n];
+    const sub = open
+      ? st.sub + (pct ? ' · record ' + pct + ' %' : '')
+      : '🔒 ' + UNLOCK_PCT + ' % au niveau ' + (st.n - 1) + ' pour ouvrir';
+    const b = chip('chip' + (open ? '' : ' locked') + (st.n === 5 ? ' wide' : ''), st.n === stage,
+      st.n + ' · ' + st.name, sub, { stage: String(st.n) });
+    if (!open) b.setAttribute('aria-disabled', 'true');
+    box.appendChild(b);
+  });
+  const t = $('freeToggle');
+  t.setAttribute('aria-pressed', free ? 'true' : 'false');
+  t.textContent = free ? 'Mode parent actif : tous les niveaux sont ouverts (toucher pour refermer)' : 'Mode parent : ouvrir tous les niveaux';
+}
+
+function paintModes() {
+  const box = $('modes');
+  box.replaceChildren();
+  const list = STAGE_MODES[stage];
+  if (!list.some((m) => m.key === mode)) mode = list[0].key;
+  list.forEach((m) => box.appendChild(chip('chip' + (m.wide ? ' wide' : ''), m.key === mode, m.name, m.sub, { mode: m.key })));
+}
+
+function paintDiffs() {
+  const subs = stage === 1 ? DIFF_SUB[1] : DIFF_SUB.up;
+  const icon = { facile: '🙂 ', moyen: '😃 ', expert: '🤩 ' };
+  [...$('diffs').children].forEach((b) => {
+    const d = b.dataset.diff;
+    b.querySelector('span').textContent = icon[d] + DIFF_NAME[d];
+    b.querySelector('small').textContent = subs[d];
+  });
+}
+
+function paintSetup() {
+  if (!isUnlocked(bestOf(), stage, free)) stage = 1;
+  paintStages(); paintModes(); paintDiffs(); checkVoice();
+}
+
+$('stages').addEventListener('click', (e) => {
+  const b = e.target.closest('.chip');
+  if (!b) return;
+  const n = +b.dataset.stage;
+  if (!isUnlocked(bestOf(), n, free)) {
+    $('lockHint').classList.remove('flash'); void $('lockHint').offsetWidth; $('lockHint').classList.add('flash');
+    return;
+  }
+  if (n !== stage) { stage = n; mode = STAGE_MODES[n][0].key; }
+  paintSetup();
+});
+$('freeToggle').addEventListener('click', () => {
+  free = !free;
+  saveFree();
+  paintSetup();
+});
+
+/* ---------- dictée : voix du navigateur, hors ligne ---------- */
+
+let voice = null;
+/** Une voix installée sur l'appareil (localService) : rien ne part sur le réseau. en-GB d'abord. */
+function pickVoice() {
+  const syn = window.speechSynthesis;
+  if (!syn || typeof syn.getVoices !== 'function') return null;
+  const local = syn.getVoices().filter((v) => v.localService !== false && /^en([-_]|$)/i.test(v.lang || ''));
+  return local.find((v) => /^en[-_]GB$/i.test(v.lang)) || local[0] || null;
+}
+function refreshVoice() { voice = pickVoice(); checkVoice(); }
+if (window.speechSynthesis) {
+  refreshVoice();
+  try { speechSynthesis.addEventListener('voiceschanged', refreshVoice); } catch { speechSynthesis.onvoiceschanged = refreshVoice; }
+}
+
+function checkVoice() {
+  const msg = $('voiceMsg');
+  const need = mode === 'listen';
+  const missing = need && !voice;
+  msg.classList.toggle('hide', !missing);
+  if (missing) {
+    msg.textContent = window.speechSynthesis
+      ? 'Pas de voix anglaise sur cet appareil. Ajoute une voix « English (UK) » dans les réglages (langue et voix), puis recharge la page. En attendant, choisis un autre entraînement.'
+      : 'Ce navigateur ne sait pas lire à voix haute. Essaie Safari ou Chrome, ou choisis un autre entraînement.';
+  }
+  $('start').disabled = missing;
+}
+
+function speak(text) {
+  const syn = window.speechSynthesis;
+  if (!syn || !voice) return;
+  try {
+    syn.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.voice = voice;
+    u.lang = voice.lang;
+    u.rate = 0.85;
+    syn.speak(u);
+  } catch { /* ignore */ }
+}
+$('replay').addEventListener('click', () => { if (G.running && G.q && G.q.say) speak(G.q.say); });
 chipGroup('durs', (d) => { duration = +d.dur; });
 
 $('start').addEventListener('click', () => begin(null));
@@ -479,6 +650,7 @@ $('back').addEventListener('click', () => {
   FX.clear();
   $('over').classList.add('hide');
   $('setup').classList.remove('hide');
+  paintSetup();
 });
 $('quit').addEventListener('click', () => { if (G.running) finish(); });
 
@@ -507,6 +679,7 @@ $('verNum').textContent = APP_VERSION;
 loadPersisted();
 $('pname').value = player.name;
 $('tagline').textContent = 'Le chrono tourne. À toi de jouer, ' + player.name + ' !';
+paintSetup();
 reset(null);
 checkVersion();
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');

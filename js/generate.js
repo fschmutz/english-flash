@@ -80,7 +80,7 @@ export const FAM = {
  * ------------------------------------------------------------------ */
 
 /** Question tapée au clavier : `a` est la réponse attendue, `accept` les variantes acceptées. */
-function typed(t, answer, meta, alts = []) {
+export function typed(t, answer, meta, alts = []) {
   const accept = [answer, ...alts].map(norm);
   return { t, a: norm(answer), aLabel: answer, accept, choices: null, ...meta };
 }
@@ -89,7 +89,7 @@ function typed(t, answer, meta, alts = []) {
  * Question à toucher : options mélangées, une seule vaut la réponse.
  * Les doublons de libellé sont retirés : deux boutons identiques rendraient la question injouable.
  */
-function mcq(t, ok, ko, meta, rnd = Math.random) {
+export function mcq(t, ok, ko, meta, rnd = Math.random) {
   const labels = [ok];
   for (const k of ko) if (labels.indexOf(k) === -1) labels.push(k);
   const choices = shuffle(labels, rnd).map((label, i) => ({ v: i, label }));
@@ -98,12 +98,27 @@ function mcq(t, ok, ko, meta, rnd = Math.random) {
 }
 
 /** Nombre d'options selon le palier : 3 au début, 4 ensuite. */
-const nOpt = (level) => (level <= 1 ? 3 : 4);
+export const nOpt = (level) => (level <= 1 ? 3 : 4);
 
 /** Est-ce que la réponse donnée est juste ? Index pour un QCM, texte pour une question tapée. */
 export function isCorrect(q, given) {
   if (q.choices) return given === q.a;
+  if (q.loose) return q.accept.indexOf(normLoose(given)) !== -1;
   return q.accept.indexOf(norm(given)) !== -1;
+}
+
+/**
+ * Dictée : la ponctuation et les majuscules ne comptent pas, l'apostrophe des mots oui
+ * (« it's » et « its » ne sont pas le même mot).
+ */
+export function normLoose(s) {
+  return String(s)
+    .toLowerCase()
+    .replace(/[\u2019\u2018`´]/g, "'")
+    .replace(/[^a-z0-9' ]+/g, ' ')
+    .replace(/(^|\s)'+|'+(\s|$)/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 /* ------------------------------------------------------------------ *
