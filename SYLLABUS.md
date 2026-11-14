@@ -81,8 +81,14 @@ vocabox collées dans le cahier. Le jeu ne pose rien qui ne soit pas ici ou tout
 - read a book
 <!-- /vocab -->
 
-Textes « Free time activities around the world » : Leslie et Monica (England), Hannah (Ireland),
-Dennis et Joey (Scotland), Tom (the United States).
+Textes « Free time activities around the world » : ce que font Leslie et Monica, Hannah, Dennis et Joey,
+et Tom, quel jour et à quelle heure. Les questions portent sur leurs activités, pas sur le pays où ils vivent.
+
+## D'où vient chaque question
+
+Chaque question du jeu porte la page du cahier d'où elle vient (`SOURCES` dans `js/generate.js`) et un
+thème parmi : vocabulaire de la routine, free time (DO / GO / PLAY), présent simple, possessifs, l'heure,
+mots de liaison. `test/sources.test.mjs` refuse une question sans page ou hors de ces thèmes.
 
 ## Présent simple
 

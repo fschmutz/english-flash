@@ -1,5 +1,24 @@
 # Changelog
 
+## 2026.11.14.2
+
+Niveau 1 recentré sur la fiche de révision de l'Unit 4, rien d'autre.
+
+- Retiré : les quatre questions « Where do / does … live? » des textes *Around the world*. Remplacées par des
+  questions sur leurs activités (Hannah regarde la télé, Dennis et Joey font leurs devoirs à 5 pm, Tom joue au
+  football américain le week-end et aux jeux vidéo le soir).
+- Retiré : les phrases inventées hors cahier du présent simple (*by bus*, *brush the dog*, *wash the car*,
+  *fix bikes*), remplacées par des phrases des textes et des vocabox (*go to the cinema every Friday evening*,
+  *play baseball every Tuesday*, *eat lunch*, *go to school every morning*).
+- Retiré : *tired, hungry, late, happy* (unité « How are you? ») après *be*, remplacés par des situations de la
+  routine (*at school at 9 am*, *in bed at 10 pm*…) ; *have a shower* remplacé par *have breakfast*.
+- Retiré : *The dog … its face* (sujet inventé) dans les possessifs.
+- Orthographe : *jeudi* et *samedi* (rituel de début d'année) remplacés par *mardi* et *dimanche*, les jours des
+  textes de l'Unit 4.
+- Chaque question porte la page du cahier d'où elle vient et son thème. `test/sources.test.mjs` échoue si une
+  question n'a pas de source, sort des six thèmes de la fiche, ou parle de pays, de lieu de vie ou d'une unité
+  d'avant.
+
 ## 2026.11.14.1
 
 Première version, pour l'évaluation d'anglais du lundi 16 novembre 2026 : Unit 4 *My daily routine*.
