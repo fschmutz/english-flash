@@ -1,6 +1,7 @@
-# ScaleMeNow GitHub template
+# English Flash
 
-This wiki is the documentation surface for repositories created from
+Arcade d'anglais 6ème (Unit 4 *My daily routine*), statique, hors ligne. Ce wiki est la surface de
+documentation du dépôt ; il vient du modèle
 [`ScaleMeNow/GITHUB-TEMPLATE`](https://github.com/ScaleMeNow/GITHUB-TEMPLATE).
 
 > **This wiki is generated.** Every page here is a file in the `wiki/` directory
@@ -20,16 +21,15 @@ This wiki is the documentation surface for repositories created from
 
 ## Screenshots
 
-What a repository made from the template looks like on day one, captured from
-the repository's own files by `scripts/screenshots/capture.sh`. A repository
-made from the template replaces them with its own — screenshots are mandatory,
-see [ADR-0002](ADR/0002-Screenshots-Are-Mandatory).
+Captures de la borne, prises avec un prénom fictif.
 
-![The README rendered as GitHub shows it: hero, badges, purpose line, and the start of the contents](https://github.com/ScaleMeNow/GITHUB-TEMPLATE/raw/main/docs/screenshots/readme.png)
+![Écran de choix : sept entraînements, trois niveaux, trois durées](https://github.com/fschmutz/english-flash/raw/main/docs/screenshots/setup.png)
 
-![The bug report issue form, drawn field by field from .github/ISSUE_TEMPLATE/bug.yml](https://github.com/ScaleMeNow/GITHUB-TEMPLATE/raw/main/docs/screenshots/issue-form-bug.png)
+![Une question sur l'heure avec quatre réponses à toucher](https://github.com/fschmutz/english-flash/raw/main/docs/screenshots/question.png)
 
-![The pull request template as it appears in a new pull request: What, Kind, Checklist](https://github.com/ScaleMeNow/GITHUB-TEMPLATE/raw/main/docs/screenshots/pull-request-template.png)
+![Une question d'orthographe avec le clavier QWERTY de la borne](https://github.com/fschmutz/english-flash/raw/main/docs/screenshots/orthographe.png)
+
+![Récap de fin de manche : score, réussite, questions à revoir](https://github.com/fschmutz/english-flash/raw/main/docs/screenshots/recap.png)
 
 ## How this wiki works
 

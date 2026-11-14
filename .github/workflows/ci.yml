@@ -260,6 +260,22 @@ jobs:
           done < <(find .github/bundles -type f -print0)
           exit "${bad}"
 
+  # The game's question bank: node --test over js/generate.js, and the bank
+  # checked against SYLLABUS.md. Node ships on the runner; no setup action.
+  test:
+    name: question bank tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: node --test
+        run: |
+          set -euo pipefail
+          node --version
+          node --test "test/*.test.mjs"
+
   # Bundle A. Screenshots are mandatory (ADR-0002): a `## Screenshots` section
   # in the README backed by docs/screenshots/, or a declared reason in
   # .github/screenshots-exempt. The script is the single implementation; this

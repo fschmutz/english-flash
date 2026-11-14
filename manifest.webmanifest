@@ -1,0 +1,19 @@
+{
+  "name": "English Flash",
+  "short_name": "English Flash",
+  "description": "Arcade d'anglais 6ème dans le navigateur. My daily routine. Rien n'est envoyé.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#06182B",
+  "theme_color": "#06182B",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
